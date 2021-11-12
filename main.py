@@ -43,7 +43,7 @@ class Graph:
             for (b, dist) in self.graph_dict[a].items():
                 self.graph_dict.setdefault(b, {})[a] = dist
                     
-    def connect(self, A, B, distance=1):                                                                                                                             # Add a link from A and B of given distance, and also add the inverse link if the graph is undirected
+    def connect(self, A, B, distance=1):                                                # Add a link from A and B of given distance, and also add the inverse link if the graph is undirected
         self.graph_dict.setdefault(A, {})[B] = distance
         self.graph_dict.setdefault(B, {})[A] = distance
                
@@ -108,7 +108,7 @@ def A_Star(graph, heuristics, start, end):
             path.append(curr_node.name)
             break
 
-    print("FINAL COST -> " + str(totalcost))
+    print("FINAL COST -> " + str(totalcost),end = " ")
     return path
     
 ###########################################################################################################################
@@ -122,56 +122,71 @@ def main():
     graph = Graph()
         
     # Create graph connections (Actual distance)
-    graph.connect('Arad', 'Zerind', 75)
-    graph.connect('Arad', 'Siblu', 140)
-    graph.connect('Arad', 'Timisoara', 118)
-    graph.connect('Zerind', 'Oradea', 71)
-    graph.connect('Oradea', 'Siblu', 151)
-    graph.connect('Siblu', 'Fugaras', 99)
-    graph.connect('Siblu', 'Rimnicu Vilcea', 80)
-    graph.connect('Rimnicu Vilcea', 'Pitesti', 97)
-    graph.connect('Timisoara', 'Lugoj', 111)
-    graph.connect('Lugoj','Mehadia', 70)
-    graph.connect('Mehadia', 'Dobreta',75)
-    graph.connect('Dobreta', 'Craiova', 120)
-    graph.connect('Craiova','Rimnicu Vilcea', 146)
-    graph.connect('Craiova','Pitesti', 138)
-    graph.connect('Fugaras', 'Bucharest', 211)
-    graph.connect('Pitesti', 'Bucharest', 101)
-    graph.connect('Giurgiu', 'Bucharest', 90)
+    graph.connect('Bus Stop', 'Riyadh Boulevard', 10)
+    graph.connect('Bus Stop', 'Qariat Zaman', 23)
+    graph.connect('Bus Stop', 'The Groves', 12)
+    graph.connect('Winter Wonderland', 'Riyadh Boulevard', 7)
+    graph.connect('Riyadh Boulevard', 'Riyadh Front', 24)
+    graph.connect('Riyadh Front', 'Qariat Zaman', 17)
+    graph.connect('Qariat Zaman', 'khulawha', 9)
+    graph.connect('Qariat Zaman', 'Winter Wonderland', 15)
+    graph.connect('Via Riyadh', 'The Groves', 3)
+    graph.connect('Al Murabba','Via Riyadh', 14)
+    graph.connect('Al Salam Tree', 'Via Riyadh',18)
+    graph.connect('Nabd Al Riyadh', 'Al Murabba', 5)
+    graph.connect('Al Salam Tree','Nabd Al Riyadh', 3)
+    graph.connect('Al Murabba','Qariat Zaman', 29)
+    graph.connect('Al Murabba', 'khulawha', 36)
+ 
         
         
     # Make graph undirected, create symmetric connections
     graph.make_undirected()
         
-    # Create heuristics (straight-line distance, air-travel distance) for Destination Bucharest
-    heuristics = {}
-    heuristics['Arad'] = 366
-    heuristics['Bucharest'] = 0
-    heuristics['Craiova'] = 160
-    heuristics['Dobreta'] = 242
-    heuristics['Fugaras'] = 176
-    heuristics['Lugoj'] = 244
-    heuristics['Mehadia'] = 241
-    heuristics['Oradea'] = 380
-    heuristics['Pitesti'] = 10
-    heuristics['Rimnicu Vilcea'] = 193
-    heuristics['Siblu'] = 253
-    heuristics['Timisoara'] = 329
-    heuristics['Zerind'] = 374
-    heuristics['Giurgiu'] = 77
+    # Create heuristics (straight-line distance, Bus-Ride distance) for Destination Bus Stop
+    SLheuristics = {}
+    SLheuristics['Riyadh Front'] = 21.3
+    SLheuristics['Qariat Zaman'] = 19.8
+    SLheuristics['khulawha'] = 26.3
+    SLheuristics['Winter Wonderland'] = 8.28
+    SLheuristics['Riyadh Boulevard'] = 5.38
+    SLheuristics['Via Riyadh'] = 7.4
+    SLheuristics['Al Murabba'] = 16.6
+    SLheuristics['Nabd Al Riyadh'] = 16.9
+    SLheuristics['The Groves'] = 5.34
+    SLheuristics['Al Salam Tree'] = 17
+    SLheuristics['Bus Stop'] = 0
     
+    # Create heuristics time based for Destination Bus Stop
     
+    Theuristics = {}
+    Theuristics['Riyadh Front'] = 30 
+    Theuristics['Qariat Zaman'] = 21
+    Theuristics['khulawha'] = 40
+    Theuristics['Winter Wonderland'] = 20
+    Theuristics['Riyadh Boulevard'] = 17
+    Theuristics['Via Riyadh'] = 31
+    #Theuristics['Al Murabba'] = 26
+    #Theuristics['Nabd Al Riyadh'] = 34
+    Theuristics['The Groves'] = 33
+    #Theuristics['Al Salam Tree'] = 45
+    Theuristics['Bus Stop'] = 0
     
     
         
     # Print Graph Nodes
-    graph.printgraph()
-    print("--------------------------------\n\n")
+    #graph.printgraph()
+    #print("--------------------------------\n\n")
     # Run search algorithm
-    path = A_Star(graph, heuristics, 'Arad', 'Bucharest')        
+    SLpath = A_Star(graph, SLheuristics, 'Riyadh Front', 'Bus Stop') 
+    print("KM")       
     print("PATH: " ,end = " ")
-    print(path)
+    print(SLpath)
+
+    Tpath = A_Star(graph, Theuristics, 'Riyadh Front', 'Bus Stop') 
+    print("min")       
+    print("PATH: " ,end = " ")
+    print(Tpath)
 
 # Tell python to run main method
 if __name__ == "__main__": 

@@ -62,7 +62,7 @@ class Graph:
 
     def getNode(self, city, heuristics, end):                                           # Get a specific neighbour which has minimum cost
         nodes = list()
-        min = 90
+        min = 99999
         
         for (b,dist) in self.graph_dict[city].items():
             if(b == end):
@@ -99,7 +99,6 @@ def A_Star(graph, heuristics, start, end):
         return  None
 
     while(curr_node.name != end):                                                       # Runs Until we cannot find the goal state or
-
         totalcost += curr_node.g
         path.append(curr_node.name)
         curr_node = open_list.pop()
@@ -112,7 +111,7 @@ def A_Star(graph, heuristics, start, end):
 
     print("FINAL COST -> " + str(totalcost),end = " ")
     return path
-    
+  
 ###########################################################################################################################
 
 ########################################################## Main ###########################################################
@@ -123,55 +122,57 @@ def main():
     # Create a graph
     graph = Graph()
         
-    # Create graph connections (Actual distance)
+    # Create graph connections (Actual distance in KM)
     graph.connect('Bus Stop', 'Riyadh Boulevard', 10)
     graph.connect('Bus Stop', 'Qariat Zaman', 23)
-    graph.connect('Bus Stop', 'The Groves', 12)
-    graph.connect('Winter Wonderland', 'Riyadh Boulevard', 7)
-    graph.connect('Riyadh Boulevard', 'Riyadh Front', 24)
-    graph.connect('Riyadh Front', 'Qariat Zaman', 17)
-    graph.connect('Qariat Zaman', 'khulawha', 9)
-    graph.connect('Qariat Zaman', 'Winter Wonderland', 15)
+    graph.connect('Bus Stop', 'The Groves', 12) 
+    graph.connect('Tuwaiq Palace','Via Riyadh', 3)
+    graph.connect('Tuwaiq Palace','The Groves', 2)
     graph.connect('Via Riyadh', 'The Groves', 3)
+    graph.connect('Via Riyadh', 'Al Salam Tree',18)
     graph.connect('Al Murabba','Via Riyadh', 14)
     graph.connect('Al Murabba','Al Salam Tree', 6)
-    graph.connect('Al Salam Tree', 'Via Riyadh',18)
-    #graph.connect('Nabd Al Riyadh', 'Al Murabba', 5)
-    #graph.connect('Al Salam Tree','Nabd Al Riyadh', 3)
     graph.connect('Al Murabba','Qariat Zaman', 29)
     graph.connect('Al Murabba', 'khulawha', 36)
+    graph.connect('Qariat Zaman', 'Riyadh Front', 17)
+    graph.connect('Qariat Zaman', 'khulawha', 9)
+    graph.connect('Qariat Zaman', 'Winter Wonderland', 15)
+    graph.connect('Riyadh Boulevard','Winter Wonderland', 7)
+    graph.connect('Riyadh Boulevard', 'Riyadh Front', 24)
+    
  
         
         
     # Make graph undirected, create symmetric connections
     graph.make_undirected()
         
-    # Create heuristics (straight-line distance, Bus-Ride distance) for Destination Bus Stop
+    # Create heuristics (straight-line distance in meters, Bus-Ride distance) for Destination Bus Stop
     SLheuristics = {}
-    SLheuristics['Riyadh Front'] = 21.3
-    SLheuristics['Qariat Zaman'] = 19.8
-    SLheuristics['khulawha'] = 26.3
-    SLheuristics['Winter Wonderland'] = 8.28
-    SLheuristics['Riyadh Boulevard'] = 5.38
-    SLheuristics['Via Riyadh'] = 7.4
-    SLheuristics['Al Murabba'] = 16.6
-    SLheuristics['Nabd Al Riyadh'] = 16.9
-    SLheuristics['The Groves'] = 5.34
-    SLheuristics['Al Salam Tree'] = 17
+    SLheuristics['Riyadh Front'] = 22000
+    SLheuristics['Qariat Zaman'] = 20000
+    SLheuristics['khulawha'] = 27000
+    SLheuristics['Winter Wonderland'] = 9000
+    SLheuristics['Riyadh Boulevard'] = 6000
+    SLheuristics['Via Riyadh'] = 8000
+    SLheuristics['Al Murabba'] = 17000
+    SLheuristics['The Groves'] = 6000
+    SLheuristics['Tuwaiq Palace'] = 5000
+    SLheuristics['Al Salam Tree'] = 17000
     SLheuristics['Bus Stop'] = 0
     
-    # Create heuristics time based for Destination Bus Stop
+    # Create heuristics time based in min for Destination Bus Stop
     
     Theuristics = {}
     Theuristics['Riyadh Front'] = 36 
     Theuristics['Qariat Zaman'] = 28
-    Theuristics['khulawha'] = 40
-    Theuristics['Winter Wonderland'] = 20
-    Theuristics['Riyadh Boulevard'] = 17
-    Theuristics['Via Riyadh'] = 31
-    Theuristics['Al Murabba'] = 26
-    Theuristics['The Groves'] = 33
-    Theuristics['Al Salam Tree'] = 45
+    Theuristics['khulawha'] = 44
+    Theuristics['Winter Wonderland'] = 23
+    Theuristics['Riyadh Boulevard'] = 12
+    Theuristics['Via Riyadh'] = 24
+    Theuristics['Al Murabba'] = 33
+    Theuristics['The Groves'] = 15
+    Theuristics['Tuwaiq Palace'] = 17
+    Theuristics['Al Salam Tree'] = 41
     Theuristics['Bus Stop'] = 0
     
     
@@ -180,15 +181,16 @@ def main():
     #graph.printgraph()
     #print("--------------------------------\n\n")
     # Run search algorithm
-    SLpath = A_Star(graph, SLheuristics, 'Al Murabba', 'Bus Stop') 
-    print("KM")       
+    SLpath = A_Star(graph, SLheuristics, 'khulawha', 'Bus Stop') 
+    print("KM SL heuristic")       
     print("PATH: " ,end = " ")
     print(SLpath)
 
-    Tpath = A_Star(graph, Theuristics, 'Al Murabba', 'Bus Stop') 
-    print("min")       
+    Tpath = A_Star(graph, Theuristics, 'khulawha', 'Bus Stop') 
+    print("KM Time heuristic")       
     print("PATH: " ,end = " ")
     print(Tpath)
+    
 
 # Tell python to run main method
 if __name__ == "__main__": 

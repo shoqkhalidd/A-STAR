@@ -1,29 +1,34 @@
-###########################################################################################################################
-#               Hassan Shahzad
-#               18i-0441
-#               CS-D
-#               FAST-NUCES ISB
-#               chhxnshah@gmail.com
+
+# 
+# originally written by  Hassan Shahzad, contact chhxnshah@gmail.com
+#
+# modified by Shoug Alsuhibani, contact ssuhaibani@sm.imamu.edu.sa
+#             Shouq Almutairi , contact skaalmutairi@sm.imamu.edu.sa
+#             Noor Elmasry    , contact nelmasry@sm.imamu.edu.sa
+#             Reema Aloqayli  , contact rmnaloqayli@sm.imamu.edu.sa
+#
+# in order to fillfull a CS361 Project specification            
+#
 ###########################################################################################################################
 
 ###################################################### Node Class #########################################################
 
 class Node:
         
-    def __init__(self, name, parent, g, h, f):                                          # Initializing the class
+    def __init__(self, name, parent, g, h, f):                                           # Initializing the class
         self.name = name
-        self.parent = parent
-        self.g = g                                                                      # Distance to start node
-        self.h = h                                                                      # Distance to goal node
-        self.f = f                                                                      # Total cost
+        self.parent = parent                                                             # node's parent
+        self.g = g                                                                       # Distance to start node
+        self.h = h                                                                       # Distance to goal node
+        self.f = f                                                                       # Total cost
             
-    def __eq__(self, other):                                                            # Comparing two nodes
+    def __eq__(self, other):                                                             # Comparing two nodes
         return self.name == other.name
     
-    def __lt__(self, other):                                                            # Sorting nodes
+    def __lt__(self, other):                                                             # Sorting nodes
         return self.f < other.f
     
-    def __repr__(self):                                                                 # Printing nodes
+    def __repr__(self):                                                                  # Printing nodes
         return ('({0},{1})'.format(self.name, self.f))
     
    
@@ -34,7 +39,7 @@ class Node:
 
 class Graph:
     
-    def __init__(self, graph_dict=None):                                 # Initialize the class
+    def __init__(self, graph_dict=None):                                                 # Initialize the class
         self.graph_dict = graph_dict or {}
  
                 
@@ -62,7 +67,7 @@ class Graph:
 
     def getNode(self, city, heuristics, end):                                           # Get a specific neighbour which has minimum cost
         nodes = list()
-        min = 99999
+        min = 9999
         
         for (b,dist) in self.graph_dict[city].items():
             if(b == end):
@@ -87,8 +92,8 @@ class Graph:
         
 
 def A_Star(graph, heuristics, start, end):
-    open_list = list()
-    closed_list = list()  
+    open_list = list()                                                                  # candidate nodes
+    closed_list = list()                                                                # visited nodes
     path = list()                                                                       # Will store the path we are taking
     curr_node = graph.getNode(start,heuristics, end)                                    # Starting node
     open_list.append(curr_node)
@@ -139,29 +144,28 @@ def main():
     graph.connect('Qariat Zaman', 'Winter Wonderland', 15)
     graph.connect('Riyadh Boulevard','Winter Wonderland', 7)
     graph.connect('Riyadh Boulevard', 'Riyadh Front', 24)
-    
- 
-        
+       
         
     # Make graph undirected, create symmetric connections
     graph.make_undirected()
-        
-    # Create heuristics (straight-line distance in meters, Bus-Ride distance) for Destination Bus Stop
+
+
+    # Create heuristics (straight-line distance in KM) for Destination Bus Stop
     SLheuristics = {}
-    SLheuristics['Riyadh Front'] = 22000
-    SLheuristics['Qariat Zaman'] = 20000
-    SLheuristics['khulawha'] = 27000
-    SLheuristics['Winter Wonderland'] = 9000
-    SLheuristics['Riyadh Boulevard'] = 6000
-    SLheuristics['Via Riyadh'] = 8000
-    SLheuristics['Al Murabba'] = 17000
-    SLheuristics['The Groves'] = 6000
-    SLheuristics['Tuwaiq Palace'] = 5000
-    SLheuristics['Al Salam Tree'] = 17000
+    SLheuristics['Riyadh Front'] = 22
+    SLheuristics['Qariat Zaman'] = 20
+    SLheuristics['khulawha'] = 27
+    SLheuristics['Winter Wonderland'] = 9
+    SLheuristics['Riyadh Boulevard'] = 6
+    SLheuristics['Via Riyadh'] = 8
+    SLheuristics['Al Murabba'] = 17
+    SLheuristics['The Groves'] = 6
+    SLheuristics['Tuwaiq Palace'] = 5
+    SLheuristics['Al Salam Tree'] = 17
     SLheuristics['Bus Stop'] = 0
     
-    # Create heuristics time based in min for Destination Bus Stop
-    
+
+    # Create heuristics (time based in min) for Destination Bus Stop
     Theuristics = {}
     Theuristics['Riyadh Front'] = 36 
     Theuristics['Qariat Zaman'] = 28
@@ -181,12 +185,12 @@ def main():
     #graph.printgraph()
     #print("--------------------------------\n\n")
     # Run search algorithm
-    SLpath = A_Star(graph, SLheuristics, 'khulawha', 'Bus Stop') 
+    SLpath = A_Star(graph, SLheuristics, 'Riyadh Front', 'Bus Stop') 
     print("KM SL heuristic")       
     print("PATH: " ,end = " ")
     print(SLpath)
 
-    Tpath = A_Star(graph, Theuristics, 'khulawha', 'Bus Stop') 
+    Tpath = A_Star(graph, Theuristics, 'Riyadh Front', 'Bus Stop') 
     print("KM Time heuristic")       
     print("PATH: " ,end = " ")
     print(Tpath)

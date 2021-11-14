@@ -202,9 +202,9 @@ def main():
     print(Tpath)
 
     print("Min stops heuristic")       
-    stoppath = A_Star(graph, MinSheuristics, SourceNode, 'Bus Stop') 
+    Minpath = A_Star(graph, MinSheuristics, SourceNode, 'Bus Stop') 
     print("PATH: " ,end = " ")
-    print(stoppath)
+    print(Minpath)
     
 
 # Tell python to run main method

@@ -41,12 +41,6 @@ class Graph:
     
     def __init__(self, graph_dict=None):                                                 # Initialize the class
         self.graph_dict = graph_dict or {}
- 
-                
-    def make_undirected(self):                                                          # Create an undirected graph by adding symmetric edges
-        for a in list(self.graph_dict.keys()):
-            for (b, dist) in self.graph_dict[a].items():
-                self.graph_dict.setdefault(b, {})[a] = dist
                     
     def connect(self, A, B, distance=1):                                                # Add a link from A and B of given distance, and also add the inverse link if the graph is undirected
         self.graph_dict.setdefault(A, {})[B] = distance
@@ -114,7 +108,7 @@ def A_Star(graph, heuristics, start, end):
             path.append(curr_node.name)
             break
 
-    print("FINAL COST -> " + str(totalcost),end = " ")
+    print("FINAL COST -> " + str(totalcost))
     return path
   
 ###########################################################################################################################
@@ -144,10 +138,6 @@ def main():
     graph.connect('Qariat Zaman', 'Winter Wonderland', 15)
     graph.connect('Riyadh Boulevard','Winter Wonderland', 7)
     graph.connect('Riyadh Boulevard', 'Riyadh Front', 24)
-       
-        
-    # Make graph undirected, create symmetric connections
-    graph.make_undirected()
 
 
     # Create heuristics (straight-line distance in KM) for Destination Bus Stop
@@ -179,21 +169,42 @@ def main():
     Theuristics['Al Salam Tree'] = 41
     Theuristics['Bus Stop'] = 0
     
+    MinSheuristics = {}
+    MinSheuristics['Riyadh Front'] = 2 
+    MinSheuristics['Qariat Zaman'] = 0
+    MinSheuristics['khulawha'] = 2
+    MinSheuristics['Winter Wonderland'] = 1
+    MinSheuristics['Riyadh Boulevard'] = 0
+    MinSheuristics['Via Riyadh'] = 1
+    MinSheuristics['Al Murabba'] = 1
+    MinSheuristics['The Groves'] = 0
+    MinSheuristics['Tuwaiq Palace'] = 1
+    MinSheuristics['Al Salam Tree'] = 2
+    MinSheuristics['Bus Stop'] = 0
     
         
     # Print Graph Nodes
     #graph.printgraph()
     #print("--------------------------------\n\n")
+    
+    #Create a Sorce Node 
+    SourceNode="Riyadh Front"
+    
     # Run search algorithm
-    SLpath = A_Star(graph, SLheuristics, 'Riyadh Front', 'Bus Stop') 
-    print("KM SL heuristic")       
+    print("KM SL heuristic")   
+    SLpath = A_Star(graph, SLheuristics, SourceNode, 'Bus Stop')     
     print("PATH: " ,end = " ")
     print(SLpath)
 
-    Tpath = A_Star(graph, Theuristics, 'Riyadh Front', 'Bus Stop') 
-    print("KM Time heuristic")       
+    print("KM Time heuristic") 
+    Tpath = A_Star(graph, Theuristics, SourceNode, 'Bus Stop')       
     print("PATH: " ,end = " ")
     print(Tpath)
+
+    print("Min stops heuristic")       
+    stoppath = A_Star(graph, MinSheuristics, SourceNode, 'Bus Stop') 
+    print("PATH: " ,end = " ")
+    print(stoppath)
     
 
 # Tell python to run main method

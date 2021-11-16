@@ -108,7 +108,7 @@ def A_Star(graph, heuristics, start, end):
             path.append(curr_node.name)
             break
 
-    print("FINAL COST -> " + str(totalcost))
+    print("FINAL COST -> " + str(totalcost) + " KM")
     return path
   
 ###########################################################################################################################
@@ -125,8 +125,8 @@ def main():
     graph.connect('Bus Stop', 'Riyadh Boulevard', 10)
     graph.connect('Bus Stop', 'Qariat Zaman', 23)
     graph.connect('Bus Stop', 'The Groves', 12) 
-    graph.connect('Tuwaiq Palace','Via Riyadh', 3)
-    graph.connect('Tuwaiq Palace','The Groves', 2)
+    graph.connect('Tuwaiq Palace','Via Riyadh', 5)
+    graph.connect('Tuwaiq Palace','The Groves', 8)
     graph.connect('Via Riyadh', 'The Groves', 3)
     graph.connect('Via Riyadh', 'Al Salam Tree',18)
     graph.connect('Al Murabba','Via Riyadh', 14)
@@ -169,17 +169,19 @@ def main():
     Theuristics['Al Salam Tree'] = 41
     Theuristics['Bus Stop'] = 0
     
+
+    # Create heuristics (minimum Stops) for Destination Bus Stop
     MinSheuristics = {}
-    MinSheuristics['Riyadh Front'] = 2 
-    MinSheuristics['Qariat Zaman'] = 0
-    MinSheuristics['khulawha'] = 2
-    MinSheuristics['Winter Wonderland'] = 1
-    MinSheuristics['Riyadh Boulevard'] = 0
-    MinSheuristics['Via Riyadh'] = 1
-    MinSheuristics['Al Murabba'] = 1
-    MinSheuristics['The Groves'] = 0
-    MinSheuristics['Tuwaiq Palace'] = 1
-    MinSheuristics['Al Salam Tree'] = 2
+    MinSheuristics['Riyadh Front'] = 20 
+    MinSheuristics['Qariat Zaman'] = 10
+    MinSheuristics['khulawha'] = 20
+    MinSheuristics['Winter Wonderland'] = 20
+    MinSheuristics['Riyadh Boulevard'] = 10
+    MinSheuristics['Via Riyadh'] = 20
+    MinSheuristics['Al Murabba'] = 20
+    MinSheuristics['The Groves'] = 10
+    MinSheuristics['Tuwaiq Palace'] = 20
+    MinSheuristics['Al Salam Tree'] = 30
     MinSheuristics['Bus Stop'] = 0
     
         
@@ -188,21 +190,21 @@ def main():
     #print("--------------------------------\n\n")
     
     #Create a Sorce Node 
-    SourceNode="Riyadh Front"
+    SorceNode = "The Groves"
     
-    # Run search algorithm
-    print("KM SL heuristic")   
-    SLpath = A_Star(graph, SLheuristics, SourceNode, 'Bus Stop')     
+    # Run search algorithm for each heuristic
+    print("SL heuristic")   
+    SLpath = A_Star(graph, SLheuristics, SorceNode, 'Bus Stop')     
     print("PATH: " ,end = " ")
     print(SLpath)
 
-    print("KM Time heuristic") 
-    Tpath = A_Star(graph, Theuristics, SourceNode, 'Bus Stop')       
+    print("Least Time heuristic") 
+    Tpath = A_Star(graph, Theuristics, SorceNode, 'Bus Stop')       
     print("PATH: " ,end = " ")
     print(Tpath)
 
-    print("Min stops heuristic")       
-    Minpath = A_Star(graph, MinSheuristics, SourceNode, 'Bus Stop') 
+    print("Minimum Stops heuristic")       
+    Minpath = A_Star(graph, MinSheuristics, SorceNode, 'Bus Stop') 
     print("PATH: " ,end = " ")
     print(Minpath)
     

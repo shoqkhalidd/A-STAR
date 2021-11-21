@@ -192,7 +192,8 @@ def main():
     #print("--------------------------------\n\n")
     
     #Create a Sorce Node 
-    SorceNode = "The Groves"
+
+    SorceNode = "Riyadh Front"
     
     # Run search algorithm for each heuristic
     print("Using stright-line heuristic")   
@@ -208,7 +209,7 @@ def main():
 
     print("\nUsing minimum Stops heuristic")         
     Minpath,h= A_Star(graph, MinSheuristics, SorceNode, 'Bus Stop') 
-    print("Number of stops: "+str(len(Minpath)))
+    print("Number of stops: "+str(len(Minpath)-1))
     print("Path: " ,end = " ")
     print(Minpath)
     

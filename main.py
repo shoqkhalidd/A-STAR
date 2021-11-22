@@ -15,21 +15,21 @@
 
 class Node:
         
-    def __init__(self, name, parent, g, h, f):                                           # Initializing the class
+    def __init__(self, name, parent, g, h, f):                                      # Initializing the class
         self.name = name
-        self.parent = parent                                                             # node's parent
-        self.g = g                                                                       # Distance to start node
-        self.h = h                                                                       # Distance to goal node
-        self.f = f                                                                       # Total cost
+        self.parent = parent                                                        # node's parent
+        self.g = g                                                                  # Distance to start node
+        self.h = h                                                                  # Distance to goal node
+        self.f = f                                                                  # Total cost
             
-    def __eq__(self, other):                                                             # Comparing two nodes
+    def __eq__(self, other):                                                        # Comparing two nodes
         return self.name == other.name
     
-    def __lt__(self, other):                                                             # Sorting nodes
+    def __lt__(self, other):                                                        # Sorting nodes
         return self.f < other.f
     
-    def __repr__(self):                                                                  # Printing nodes
-        return ('({0},{1})'.format(self.name, self.f))
+    def __repr__(self):                                                             # Printing nodes
+        return ('{0}'.format(self.name))
     
    
 
@@ -39,40 +39,40 @@ class Node:
 
 class Graph:
     
-    def __init__(self, graph_dict=None):                                                 # Initialize the class
+    def __init__(self, graph_dict=None):                                           # Initialize the class
         self.graph_dict = graph_dict or {}
                     
-    def connect(self, A, B, distance=1):                                                # Add a link from A and B of given distance, and also add the inverse link if the graph is undirected
+    def connect(self, A, B, distance=1):                                           # Add a link from A and B of given distance
         self.graph_dict.setdefault(A, {})[B] = distance
         self.graph_dict.setdefault(B, {})[A] = distance
                
-    def get(self, a, b=None):                                                           # Get neighbors or a neighbor
+    def get(self, a, b=None):                                                      # Get neighbors or a neighbor
         links = self.graph_dict.setdefault(a, {})
         if b is None:
             return links
         else:
             return links.get(b)
             
-    def nodes(self):                                                                    # Return a list of nodes in the graph
+    def nodes(self):                                                              # Return a list of nodes in the graph
         s1 = set([k for k in self.graph_dict.keys()])
         s2 = set([k2 for v in self.graph_dict.values() for k2, v2 in v.items()])
         nodes = s1.union(s2)
         return list(nodes)
 
-    def getNode(self, city, heuristics, end):                                           # Get a specific neighbour which has minimum cost
+    def getNode(self, city, heuristics, end):                                     # Get a specific neighbour which has minimum cost
         nodes = list()
         min = 9999
-        
+        #b= neighbour,dist= cost between them 
         for (b,dist) in self.graph_dict[city].items():
             if(b == end):
                 return Node(city, b, dist, heuristics[b], dist+heuristics[b] )
             nodes.append(Node(city, b, dist, heuristics[b], dist+heuristics[b] ))
             if (dist+heuristics[b]) <= min:
                 min = dist+heuristics[b]
-                minnode = Node(city, b, dist, heuristics[b], dist+heuristics[b] )     
+                minnode = Node(city, b, dist, heuristics[b], dist+heuristics[b] )
         return minnode
         
-    def printgraph(self):                                                               # Function to print each edge in the entire graph
+    def printgraph(self):                                                         # Function to print each edge in the entire graph
          for a in list(self.graph_dict.keys()):
             for (b, dist) in self.graph_dict[a].items():
                 print (self.graph_dict.setdefault(a,{})[b], end = " : ")
@@ -86,32 +86,29 @@ class Graph:
         
 
 def A_Star(graph, heuristics, start, end):
-    open_list = list()                                                                  # candidate nodes
-    closed_list = list()                                                                # visited nodes
-    path = list()                                                                       # Will store the path we are taking
-    curr_node = graph.getNode(start,heuristics, end)                                    # Starting node
+    open_list = list()                                                              # candidate nodes
+    closed_list = list()                                                            # visited nodes
+    path = list()                                                                   # Will store the path we are taking
+    curr_node = graph.getNode(start,heuristics, end)                                # Starting node
     open_list.append(curr_node)
     totalcost = 0
-    time=0
 
-    if(end not in graph.graph_dict):                                                    # Incase the goal state does not exist
+    if(end not in graph.graph_dict):                                                # Incase the goal state does not exist
         print("\n\n---------------------------\nGOAL STATE DOES NOT EXIST\n---------------------------\n\n")
         return  None
 
-    while(curr_node.name != end):                                                       # Runs Until we cannot find the goal state or
+    while(curr_node.name != end):                                                   # Runs Until we cannot find the goal state
         totalcost += curr_node.g
-        path.append(curr_node.name)
+        path.append(curr_node)
         curr_node = open_list.pop()
         closed_list.append(curr_node)
         curr_node = graph.getNode(curr_node.parent,heuristics, end)
         open_list.append(curr_node)
-        time +=curr_node.h
         if(curr_node.name == end):
-            path.append(curr_node.name)
+            path.append(curr_node)
             break
-
     print("Final cost: " + str(totalcost) + " KM")
-    return path,time
+    return path
   
 ###########################################################################################################################
 
@@ -194,21 +191,25 @@ def main():
     #Create a Sorce Node 
 
     SorceNode = "Riyadh Front"
-    
+    time=0 
+
     # Run search algorithm for each heuristic
     print("Using stright-line heuristic")   
-    SLpath,h= A_Star(graph, SLheuristics, SorceNode, 'Bus Stop')     
+    SLpath= A_Star(graph, SLheuristics, SorceNode, 'Bus Stop')     
     print("Path: " ,end = " ")
     print(SLpath)
 
     print("\nUsing least Time heuristic") 
-    Tpath,time = A_Star(graph, Theuristics, SorceNode, 'Bus Stop')       
+    Tpath = A_Star(graph, Theuristics, SorceNode, 'Bus Stop')       
+    for node in Tpath:
+      if(node !=Tpath[len(Tpath)-1]):
+          time += node.h
     print("Least time: "+str(time)+" Km/m")
     print("Path: " ,end = " ")
     print(Tpath)
 
     print("\nUsing minimum Stops heuristic")         
-    Minpath,h= A_Star(graph, MinSheuristics, SorceNode, 'Bus Stop') 
+    Minpath= A_Star(graph, MinSheuristics, SorceNode, 'Bus Stop') 
     print("Number of stops: "+str(len(Minpath)-1))
     print("Path: " ,end = " ")
     print(Minpath)

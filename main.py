@@ -187,20 +187,20 @@ def main():
     #graph.printgraph()
     #print("--------------------------------\n\n")
     
-    #Create a Sorce Node 
+    #Create a source Node 
 
-    SorceNode = "khulawha"
+    SourceNode = "khulawha"
     
 
     # Run search algorithm for each heuristic
     print("Using stright-line heuristic")   
-    SLpath,cost= A_Star(graph, SLheuristics, SorceNode, 'Bus Stop')  
+    SLpath,cost= A_Star(graph, SLheuristics, SourceNode, 'Bus Stop')  
     print("Final cost: " + str(cost) + " KM")   
     print("Path: " ,end = " ")
     print(SLpath)
 
     print("\nUsing least Time heuristic") 
-    Tpath,cost= A_Star(graph, Theuristics, SorceNode, 'Bus Stop')       
+    Tpath,cost= A_Star(graph, Theuristics, SourceNode, 'Bus Stop')       
     print("Final cost: " + str(cost) + " KM")
     cost=round((cost/50)*60)
     print("Least time: "+str(cost)+" Km/m")
@@ -208,7 +208,7 @@ def main():
     print(Tpath)
 
     print("\nUsing minimum Stops heuristic")         
-    Minpath,cost= A_Star(graph, MinSheuristics, SorceNode, 'Bus Stop') 
+    Minpath,cost= A_Star(graph, MinSheuristics, SourceNode, 'Bus Stop') 
     print("Final cost: " + str(cost) + " KM")
     print("Number of stops: "+str(len(Minpath)-2))
     print("Path: " ,end = " ")

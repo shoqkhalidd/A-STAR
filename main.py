@@ -29,7 +29,7 @@ class Node:
         return self.f < other.f
     
     def __repr__(self):                                                             # Printing nodes
-        return ('{0}'.format(self.name))
+        return ('({0},{1})'.format(self.name, self.f))
     
    
 
@@ -99,16 +99,15 @@ def A_Star(graph, heuristics, start, end):
 
     while(curr_node.name != end):                                                   # Runs Until we cannot find the goal state
         totalcost += curr_node.g
-        path.append(curr_node)
+        path.append(curr_node.name)
         curr_node = open_list.pop()
         closed_list.append(curr_node)
         curr_node = graph.getNode(curr_node.parent,heuristics, end)
         open_list.append(curr_node)
         if(curr_node.name == end):
-            path.append(curr_node)
+            path.append(curr_node.name)
             break
-    print("Final cost: " + str(totalcost) + " KM")
-    return path
+    return path,totalcost
   
 ###########################################################################################################################
 
@@ -190,27 +189,28 @@ def main():
     
     #Create a Sorce Node 
 
-    SorceNode = "Riyadh Front"
-    time=0 
+    SorceNode = "khulawha"
+    
 
     # Run search algorithm for each heuristic
     print("Using stright-line heuristic")   
-    SLpath= A_Star(graph, SLheuristics, SorceNode, 'Bus Stop')     
+    SLpath,cost= A_Star(graph, SLheuristics, SorceNode, 'Bus Stop')  
+    print("Final cost: " + str(cost) + " KM")   
     print("Path: " ,end = " ")
     print(SLpath)
 
     print("\nUsing least Time heuristic") 
-    Tpath = A_Star(graph, Theuristics, SorceNode, 'Bus Stop')       
-    for node in Tpath:
-      if(node !=Tpath[len(Tpath)-1]):
-          time += node.h
-    print("Least time: "+str(time)+" Km/m")
+    Tpath,cost= A_Star(graph, Theuristics, SorceNode, 'Bus Stop')       
+    print("Final cost: " + str(cost) + " KM")
+    cost=round((cost/50)*60)
+    print("Least time: "+str(cost)+" Km/m")
     print("Path: " ,end = " ")
     print(Tpath)
 
     print("\nUsing minimum Stops heuristic")         
-    Minpath= A_Star(graph, MinSheuristics, SorceNode, 'Bus Stop') 
-    print("Number of stops: "+str(len(Minpath)-1))
+    Minpath,cost= A_Star(graph, MinSheuristics, SorceNode, 'Bus Stop') 
+    print("Final cost: " + str(cost) + " KM")
+    print("Number of stops: "+str(len(Minpath)-2))
     print("Path: " ,end = " ")
     print(Minpath)
     

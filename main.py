@@ -12,7 +12,6 @@
 ###########################################################################################################################
 
 ###################################################### Node Class #########################################################
-
 class Node:
         
     def __init__(self, name, parent, g, h, f):                                      # Initializing the class
@@ -120,67 +119,67 @@ def main():
     graph = Graph()
         
     # Create graph connections (Actual distance in KM)
-    graph.connect('Bus Stop', 'Riyadh Boulevard', 10)
-    graph.connect('Bus Stop', 'Qariat Zaman', 23)
-    graph.connect('Bus Stop', 'The Groves', 12) 
-    graph.connect('Tuwaiq Palace','Via Riyadh', 10)
-    graph.connect('Tuwaiq Palace','The Groves', 8)
-    graph.connect('Via Riyadh', 'The Groves', 12)
-    graph.connect('Via Riyadh', 'Al Salam Tree',15)
-    graph.connect('Al Murabba','Via Riyadh', 12)
-    graph.connect('Al Murabba','Al Salam Tree', 6)
-    graph.connect('Al Murabba','Qariat Zaman', 27)
-    graph.connect('Al Murabba', 'khulawha', 33)
-    graph.connect('Qariat Zaman', 'Riyadh Front', 13)
-    graph.connect('Qariat Zaman', 'khulawha', 15)
-    graph.connect('Qariat Zaman', 'Winter Wonderland', 15)
-    graph.connect('Riyadh Boulevard','Winter Wonderland', 10)
-    graph.connect('Riyadh Boulevard', 'Riyadh Front', 21)
+    graph.connect('Bus stop', 'Riyadh boulevard', 10)
+    graph.connect('Bus stop', 'Qariat zaman', 23)
+    graph.connect('Bus stop', 'The groves', 12) 
+    graph.connect('Tuwaiq palace','Via riyadh', 10)
+    graph.connect('Tuwaiq palace','The groves', 8)
+    graph.connect('Via riyadh', 'The groves', 12)
+    graph.connect('Via riyadh', 'al salam tree',15)
+    graph.connect('Al murabba','Via riyadh', 12)
+    graph.connect('Al murabba','al salam tree', 6)
+    graph.connect('Al murabba','Qariat zaman', 27)
+    graph.connect('Al murabba', 'Khulawha', 33)
+    graph.connect('Qariat zaman', 'Riyadh front', 13)
+    graph.connect('Qariat zaman', 'Khulawha', 15)
+    graph.connect('Qariat zaman', 'Winter wonderland', 15)
+    graph.connect('Riyadh boulevard','Winter wonderland', 10)
+    graph.connect('Riyadh boulevard', 'Riyadh front', 21)
 
 
     # Create heuristics (straight-line distance in KM) for Destination Bus Stop
     SLheuristics = {}
-    SLheuristics['Riyadh Front'] = 22
-    SLheuristics['Qariat Zaman'] = 21
-    SLheuristics['khulawha'] = 27
-    SLheuristics['Winter Wonderland'] = 9
-    SLheuristics['Riyadh Boulevard'] = 6
-    SLheuristics['Via Riyadh'] = 8
-    SLheuristics['Al Murabba'] = 16
-    SLheuristics['The Groves'] = 6
-    SLheuristics['Tuwaiq Palace'] = 6
-    SLheuristics['Al Salam Tree'] = 18
-    SLheuristics['Bus Stop'] = 0
+    SLheuristics['Riyadh front'] = 22
+    SLheuristics['Qariat zaman'] = 21
+    SLheuristics['Khulawha'] = 27
+    SLheuristics['Winter wonderland'] = 9
+    SLheuristics['Riyadh boulevard'] = 6
+    SLheuristics['Via riyadh'] = 8
+    SLheuristics['Al murabba'] = 16
+    SLheuristics['The groves'] = 6
+    SLheuristics['Tuwaiq palace'] = 6
+    SLheuristics['al salam tree'] = 18
+    SLheuristics['Bus stop'] = 0
     
 
     # Create heuristics (time based in min) for Destination Bus Stop
     Theuristics = {}
-    Theuristics['Riyadh Front'] = 36 
-    Theuristics['Qariat Zaman'] = 31
-    Theuristics['khulawha'] = 40
-    Theuristics['Winter Wonderland'] = 17
-    Theuristics['Riyadh Boulevard'] = 17
-    Theuristics['Via Riyadh'] = 20
-    Theuristics['Al Murabba'] = 30
-    Theuristics['The Groves'] = 19
-    Theuristics['Tuwaiq Palace'] = 22
-    Theuristics['Al Salam Tree'] = 35
-    Theuristics['Bus Stop'] = 0
+    Theuristics['Riyadh front'] = 36 
+    Theuristics['Qariat zaman'] = 31
+    Theuristics['Khulawha'] = 40
+    Theuristics['Winter wonderland'] = 17
+    Theuristics['Riyadh boulevard'] = 17
+    Theuristics['Via riyadh'] = 20
+    Theuristics['Al murabba'] = 30
+    Theuristics['The groves'] = 19
+    Theuristics['Tuwaiq palace'] = 22
+    Theuristics['al salam tree'] = 35
+    Theuristics['Bus stop'] = 0
     
 
     # Create heuristics (minimum Stops) for Destination Bus Stop
     MinSheuristics = {}
-    MinSheuristics['Riyadh Front'] = 20 
-    MinSheuristics['Qariat Zaman'] = 10
-    MinSheuristics['khulawha'] = 20
-    MinSheuristics['Winter Wonderland'] = 20
-    MinSheuristics['Riyadh Boulevard'] = 10
-    MinSheuristics['Via Riyadh'] = 20
-    MinSheuristics['Al Murabba'] = 20
-    MinSheuristics['The Groves'] = 10
-    MinSheuristics['Tuwaiq Palace'] = 20
-    MinSheuristics['Al Salam Tree'] = 30
-    MinSheuristics['Bus Stop'] = 0
+    MinSheuristics['Riyadh front'] = 20 
+    MinSheuristics['Qariat zaman'] = 10
+    MinSheuristics['Khulawha'] = 20
+    MinSheuristics['Winter wonderland'] = 20
+    MinSheuristics['Riyadh boulevard'] = 10
+    MinSheuristics['Via riyadh'] = 20
+    MinSheuristics['Al murabba'] = 20
+    MinSheuristics['The groves'] = 10
+    MinSheuristics['Tuwaiq palace'] = 20
+    MinSheuristics['al salam tree'] = 30
+    MinSheuristics['Bus stop'] = 0
     
         
     # Print Graph Nodes
@@ -188,31 +187,36 @@ def main():
     #print("--------------------------------\n\n")
     
     #Create a Sorce Node 
+    print("How would you like to choose a path \n1-shortest distance \n2-least time \n3-minimum stop ")
+    option=input()
 
-    SourceNode = "Riyadh Front"
-    
+    try:
+        print("Please enter the start node")
+        SourceNode =input().capitalize()
 
-    # Run search algorithm for each heuristic
-    print("Using stright-line heuristic")   
-    SLpath,cost= A_Star(graph, SLheuristics, SourceNode, 'Bus Stop')  
-    print("Final cost: " + str(cost) + " KM")   
-    print("Path:" ,end = " ")
-    print(SLpath)
+        if(option=="1"):
+        # Run search algorithm for each heuristic
+            print("\nUsing stright-line heuristic\n")   
+            path,cost= A_Star(graph, SLheuristics, SourceNode, 'Bus stop')  
+        elif(option=="2"):
+            print("\nUsing least Time heuristic\n") 
+            path,cost= A_Star(graph, Theuristics, SourceNode, 'Bus stop') 
+            time=round((cost/50)*60)
+            print("Time in minutes: "+str(time))
+        elif(option=="3"):
+            print("\nUsing minimum Stops heuristic\n")         
+            path,cost= A_Star(graph, MinSheuristics, SourceNode, 'Bus stop')
 
-    print("\nUsing least Time heuristic") 
-    Tpath,cost= A_Star(graph, Theuristics, SourceNode, 'Bus Stop')       
-    print("Final cost: " + str(cost) + " KM")
-    cost=round((cost/50)*60)
-    print("Time in minutes: "+str(cost))
-    print("Path:" ,end = " ")
-    print(Tpath)
+        print("Final cost: " + str(cost) + " KM")
+        print("Path:" ,end = " ")
+        print(path) 
 
-    print("\nUsing minimum Stops heuristic")         
-    Minpath,cost= A_Star(graph, MinSheuristics, SourceNode, 'Bus Stop') 
-    print("Final cost: " + str(cost) + " KM")
-    print("Number of stops: "+str(len(Minpath)-2))
-    print("Path:" ,end = " ")
-    print(Minpath)
+    except KeyError:
+        print("The node is not found please choose one of these nodes")
+        for s in MinSheuristics:
+            if (s=="Bus stop"):
+                break
+            print(s)
     
 
 # Tell python to run main method

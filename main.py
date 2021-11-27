@@ -186,7 +186,7 @@ def main():
     #graph.printgraph()
     #print("--------------------------------\n\n")
     
-    #Create a Sorce Node 
+    #Create a Source Node 
     print("How would you like to choose a path \n1-shortest distance \n2-least time \n3-minimum stop ")
     option=input()
 

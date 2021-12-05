@@ -21,12 +21,6 @@ class Node:
         self.h = h                                                                  # Distance to goal node
         self.f = f                                                                  # Total cost
             
-    def __eq__(self, other):                                                        # Comparing two nodes
-        return self.name == other.name
-    
-    def __lt__(self, other):                                                        # Sorting nodes
-        return self.f < other.f
-    
     def __repr__(self):                                                             # Printing nodes
         return ('({0},{1})'.format(self.name, self.f))
     
@@ -45,30 +39,17 @@ class Graph:
         self.graph_dict.setdefault(A, {})[B] = distance
         self.graph_dict.setdefault(B, {})[A] = distance
                
-    def get(self, a, b=None):                                                      # Get neighbors or a neighbor
-        links = self.graph_dict.setdefault(a, {})
-        if b is None:
-            return links
-        else:
-            return links.get(b)
-            
-    def nodes(self):                                                              # Return a list of nodes in the graph
-        s1 = set([k for k in self.graph_dict.keys()])
-        s2 = set([k2 for v in self.graph_dict.values() for k2, v2 in v.items()])
-        nodes = s1.union(s2)
-        return list(nodes)
-
-    def getNode(self, city, heuristics, end):                                     # Get a specific neighbour which has minimum cost
-        nodes = list()
+    def getNode(self, event, heuristics, end):                                     # Get a specific neighbour which has minimum cost
+        #nodes = list()
         min = 9999
         #b= neighbour,dist= cost between them 
-        for (b,dist) in self.graph_dict[city].items():
+        for (b,dist) in self.graph_dict[event].items():
             if(b == end):
-                return Node(city, b, dist, heuristics[b], dist+heuristics[b] )
-            nodes.append(Node(city, b, dist, heuristics[b], dist+heuristics[b] ))
+                return Node(event, b, dist, heuristics[b], dist+heuristics[b] )
+            #nodes.append(Node(event, b, dist, heuristics[b], dist+heuristics[b] ))
             if (dist+heuristics[b]) <= min:
                 min = dist+heuristics[b]
-                minnode = Node(city, b, dist, heuristics[b], dist+heuristics[b] )
+                minnode = Node(event, b, dist, heuristics[b], dist+heuristics[b])
         return minnode
         
     def printgraph(self):                                                         # Function to print each edge in the entire graph
@@ -183,13 +164,37 @@ def main():
     
         
     # Print Graph Nodes
-    #graph.printgraph()
-    #print("--------------------------------\n\n")
+    graph.printgraph()
+    print("--------------------------------\n\n")
     
-    #Create a Sorce Node 
+    for s in MinSheuristics:
+            SourceNode=s
 
-    SourceNode = "Al Salam Tree"
-    
+            # Run search algorithm for each heuristic
+            print("Using Stright-line heuristic")   
+            SLpath,cost= A_Star(graph, SLheuristics, SourceNode, 'Bus Stop')  
+            print("Final cost: " + str(cost) + " KM")   
+            print("Path:" ,end = " ")
+            print(SLpath)
+
+            print("\nUsing least Time heuristic") 
+            Tpath,cost= A_Star(graph, Theuristics, SourceNode, 'Bus Stop')       
+            print("Final cost: " + str(cost) + " KM")
+            cost=round((cost/50)*60)
+            print("Time in Minutes: "+str(cost))
+            print("Path:" ,end = " ")
+            print(Tpath)
+
+            print("\nUsing Minimum Stops heuristic")         
+            Minpath,cost= A_Star(graph, MinSheuristics, SourceNode, 'Bus Stop') 
+            print("Final cost: " + str(cost) + " KM")
+            print("Number of Stops: "+str(len(Minpath)-2))
+            print("Path:" ,end = " ")
+            print(Minpath)
+            print("--------------------------------\n\n")   
+"""         
+    #Create a Sorce Node 
+    SourceNode="Al Salam Tree"
 
     # Run search algorithm for each heuristic
     print("Using Stright-line heuristic")   
@@ -212,7 +217,8 @@ def main():
     print("Number of Stops: "+str(len(Minpath)-2))
     print("Path:" ,end = " ")
     print(Minpath)
-    
+    print("--------------------------------\n\n")
+"""        
 
 # Tell python to run main method
 if __name__ == "__main__": 

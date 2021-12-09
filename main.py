@@ -40,13 +40,11 @@ class Graph:
         self.graph_dict.setdefault(B, {})[A] = distance
                
     def getNode(self, event, heuristics, end):                                     # Get a specific neighbour which has minimum cost
-        #nodes = list()
         min = 9999
         #b= neighbour,dist= cost between them 
         for (b,dist) in self.graph_dict[event].items():
             if(b == end):
                 return Node(event, b, dist, heuristics[b], dist+heuristics[b] )
-            #nodes.append(Node(event, b, dist, heuristics[b], dist+heuristics[b] ))
             if (dist+heuristics[b]) <= min:
                 min = dist+heuristics[b]
                 minnode = Node(event, b, dist, heuristics[b], dist+heuristics[b])
@@ -164,35 +162,10 @@ def main():
     
         
     # Print Graph Nodes
-    graph.printgraph()
-    print("--------------------------------\n\n")
-    
-    for s in MinSheuristics:
-            SourceNode=s
-
-            # Run search algorithm for each heuristic
-            print("Using Stright-line heuristic")   
-            SLpath,cost= A_Star(graph, SLheuristics, SourceNode, 'Bus Stop')  
-            print("Final cost: " + str(cost) + " KM")   
-            print("Path:" ,end = " ")
-            print(SLpath)
-
-            print("\nUsing least Time heuristic") 
-            Tpath,cost= A_Star(graph, Theuristics, SourceNode, 'Bus Stop')       
-            print("Final cost: " + str(cost) + " KM")
-            cost=round((cost/50)*60)
-            print("Time in Minutes: "+str(cost))
-            print("Path:" ,end = " ")
-            print(Tpath)
-
-            print("\nUsing Minimum Stops heuristic")         
-            Minpath,cost= A_Star(graph, MinSheuristics, SourceNode, 'Bus Stop') 
-            print("Final cost: " + str(cost) + " KM")
-            print("Number of Stops: "+str(len(Minpath)-2))
-            print("Path:" ,end = " ")
-            print(Minpath)
-            print("--------------------------------\n\n")   
-"""         
+    #graph.printgraph()
+    #print("--------------------------------\n\n")
+   
+         
     #Create a Sorce Node 
     SourceNode="Al Salam Tree"
 
@@ -217,8 +190,7 @@ def main():
     print("Number of Stops: "+str(len(Minpath)-2))
     print("Path:" ,end = " ")
     print(Minpath)
-    print("--------------------------------\n\n")
-"""        
+      
 
 # Tell python to run main method
 if __name__ == "__main__": 
